@@ -52,19 +52,28 @@ public final class FileUserRepository implements UserRepository {
 
     // ---------------- Initialization ----------------
 
-    private void initStorage() {
-        try {
-            if (!Files.exists(DATA_PATH)) {
-                Files.createDirectories(DATA_PATH);
-            }
-            if (!Files.exists(USER_FILE)) {
-                Files.createFile(USER_FILE);
-            }
-        } catch (IOException e) {
-            System.err.println("[ERROR] Failed to initialize user storage");
-            e.printStackTrace();
+   private void initStorage() {
+    try {
+        // Get the directory path from the file path
+        Path parentDir = USER_FILE.getParent();
+        
+        // 1. Create directories if they don't exist (handles nested folders)
+        if (parentDir != null && !Files.exists(parentDir)) {
+            Files.createDirectories(parentDir);
+            System.out.println("[INFO] Created storage directory: " + parentDir);
         }
+
+        // 2. Create the file if it doesn't exist
+        if (!Files.exists(USER_FILE)) {
+            Files.createFile(USER_FILE);
+            System.out.println("[INFO] Created new user database file: " + USER_FILE);
+        }
+    } catch (IOException e) {
+        // Provide a very clear error message for your teammates
+        System.err.println("[FATAL ERROR] Could not initialize storage at " + USER_FILE);
+        System.err.println("Reason: " + e.getMessage());
     }
+} 
 
     // ---------------- Cache Management ----------------
 
