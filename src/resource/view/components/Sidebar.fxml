@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.Circle?>
+
+<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" 
+      fx:controller="main.java.com.yourorg.lms.ui.controller.SidebarController"
+      prefWidth="220" spacing="10" styleClass="sidebar" stylesheets="@../styles.css">
+    
+    <VBox alignment="CENTER" spacing="10" style="-fx-padding: 0 0 30 0;">
+        <Circle fx:id="userImage" radius="40" fill="#3498db" />
+        <Label fx:id="userNameLabel" text="Welcome, Ay" style="-fx-text-fill: white; -fx-font-weight: bold;" />
+    </VBox>
+
+    <Separator opacity="0.2" />
+
+    <Button text="🏠  Dashboard" onAction="#handleDashboard" styleClass="sidebar-button" maxWidth="Infinity"/>
+    <Button text="📚  My Courses" onAction="#handleCourses" styleClass="sidebar-button" maxWidth="Infinity"/>
+    <Button text="⚙️  Settings" onAction="#handleSettings" styleClass="sidebar-button" maxWidth="Infinity"/>
+    
+    <Region VBox.vgrow="ALWAYS" /> <Button text="🚪  Logout" onAction="#handleLogout" styleClass="sidebar-button" style="-fx-text-fill: #e74c3c;" maxWidth="Infinity"/>
+</VBox>
