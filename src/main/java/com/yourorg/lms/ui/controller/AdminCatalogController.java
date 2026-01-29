@@ -51,10 +51,10 @@ public class AdminCatalogController {
     private void loadCourseData() {
         // Mock data to test the Admin Tools view
         masterCourseData.addAll(
-            new Course("CS101", "Introduction to Java", "Basic programming concepts", "INST_001"),
-            new Course("MATH202", "Calculus II", "Integration and series", "INST_042"),
-            new Course("PY101", "General Physics", "Mechanics and heat", "INST_009"),
-            new Course("CS301", "Database Systems", "SQL and relational design", "INST_001")
+            new Course("CS101", "Introduction to Java", "Basic programming concepts", "INST_001", "active"),
+            new Course("MATH202", "Calculus II", "Integration and series", "INST_042", "active"),
+            new Course("PY101", "General Physics", "Mechanics and heat", "INST_009","archived"),
+            new Course("CS301", "Database Systems", "SQL and relational design", "INST_001", "archived")
         );
         
         globalTable.setItems(masterCourseData);

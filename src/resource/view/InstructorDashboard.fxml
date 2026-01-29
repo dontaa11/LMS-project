@@ -16,7 +16,7 @@
 
             <VBox spacing="5">
                 <Label fx:id="welcomeLabel" text="Instructor Portal" styleClass="header-label" />
-                <Label text="Manage your classes and grade assignments" style="-fx-text-fill: #95a5a6;" />
+                <Label text="Manage your classes " style="-fx-text-fill: #95a5a6;" />
             </VBox>
 
             <HBox spacing="20">
@@ -25,10 +25,9 @@
                     <Label text="Courses Taught" style="-fx-text-fill: #7f8c8d; -fx-font-weight: bold;" />
                     <Label fx:id="taughtCountLabel" text="0" style="-fx-font-size: 28px; -fx-font-weight: bold;" />
                 </VBox>
-                <VBox styleClass="card" HBox.hgrow="ALWAYS" alignment="CENTER_LEFT" spacing="10">
-                    <padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
-                    <Label text="Pending Grades" style="-fx-text-fill: #7f8c8d; -fx-font-weight: bold;" />
-                    <Label text="12" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #e67e22;" />
+               <VBox styleClass="stat-card">
+                    <Label text="Total Students" styleClass="stat-label"/>
+                    <Label fx:id="lblTotalStudents" text="0" styleClass="stat-value fx-text-fill: #7f8c8d; -fx-font-weight: bold;"/>
                 </VBox>
             </HBox>
 
@@ -42,6 +41,11 @@
                     </columns>
                 </TableView>
             </VBox>
+            <HBox spacing="10" alignment="CENTER_RIGHT">
+                <Button text="Delete Course" 
+                        onAction="#handleDeleteCourse" 
+                        style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold;" />
+            </HBox>
         </VBox>
     </center>
 </BorderPane>

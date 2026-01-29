@@ -240,4 +240,21 @@ public final class FileUserRepository implements UserRepository {
             System.err.println("[ERROR] Failed to rewrite user file: " + e.getMessage());
         }
     }
+
+    /**
+     * Finds a user in the cache by their unique ID.
+     * @param id The ID to search for (e.g., "U-123")
+     * @return The User object if found, otherwise null.
+     */
+    public User findById(String id) {
+        // Ensure data is loaded from the file first
+        if (cache.isEmpty()) {
+            refreshCache();
+        }
+
+        return cache.stream()
+                .filter(user -> user.getId().equals(id))
+                .findFirst()
+                .orElse(null);
+    }
 }

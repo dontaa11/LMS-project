@@ -145,4 +145,32 @@ public final class FileEnrollmentRepository implements EnrollmentRepository {
             e.printStackTrace();
         }
     }
+
+        // Add this to FileEnrollmentRepository
+    public int getEnrollmentCount(String courseId) {
+        return (int) cache.stream()
+                .filter(e -> e.getCourseId().equals(courseId))
+                .count();
+    }
+
+    public void deleteEnrollmentsByCourse(String courseId) {
+    cache.removeIf(e -> e.getCourseId().equals(courseId));
+    // Then rewrite the enrollments.txt file just like we did for courses
+    }
+
+    public List<String> getStudentNamesForCourse(String courseId) {
+    if (cache == null) return java.util.Collections.emptyList();
+
+    return cache.stream()
+        .filter(e -> e.getCourseId().equals(courseId))
+        .map((Enrollment e) -> {
+            // Explicitly look up the user
+            main.java.com.yourorg.lms.model.user.User student = 
+                main.java.com.yourorg.lms.repository.impl.FileUserRepository.getInstance().findById(e.getStudentId());
+            
+            // Return the name or a placeholder
+            return (student != null) ? student.getFullName() : "Unknown Student (" + e.getStudentId() + ")";
+        })
+        .collect(java.util.stream.Collectors.toList());
+}
 }

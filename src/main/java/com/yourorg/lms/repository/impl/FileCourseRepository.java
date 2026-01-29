@@ -8,6 +8,7 @@ import java.io.*;
 import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class FileCourseRepository implements CourseRepository {
 
@@ -61,7 +62,8 @@ public class FileCourseRepository implements CourseRepository {
                     course.getId(),
                     course.getTitle(),
                     course.getDescription(),
-                    course.getInstructorId()
+                    course.getInstructorId(),
+                    course.getStatus()
             ));
             writer.newLine();
 
@@ -72,15 +74,32 @@ public class FileCourseRepository implements CourseRepository {
     }
 
     @Override
-    public void update(Course course) {
-        for (int i = 0; i < cache.size(); i++) {
-            if (cache.get(i).getId().equals(course.getId())) {
-                cache.set(i, course);
-                rewriteFile();
-                return;
+    public void delete(Course course) {
+        // 1. Remove from memory
+        cache.removeIf(c -> c.getId().equals(course.getId()));
+        // 2. Rewrite the file with the remaining cache
+        try (BufferedWriter writer = Files.newBufferedWriter(
+                COURSE_FILE, 
+                StandardOpenOption.TRUNCATE_EXISTING, // Wipes the file clean
+                StandardOpenOption.WRITE)) {
+
+            for (Course c : cache) {
+                writer.write(String.join(DELIMITER,
+                        c.getId(),
+                        c.getTitle(),
+                        c.getDescription(),
+                        c.getInstructorId()
+                ));
+                writer.newLine();
             }
+            System.out.println("[INFO] Course deleted: " + course.getId());
+            
+        } catch (IOException e) {
+            System.err.println("[ERROR] Failed to update file after deletion");
+            e.printStackTrace();
         }
     }
+
 
     @Override
     public void delete(String id) {
@@ -96,6 +115,7 @@ public class FileCourseRepository implements CourseRepository {
                 .findFirst()
                 .orElse(null);
     }
+
 
     @Override
     public List<Course> findAll() {
@@ -121,49 +141,72 @@ public class FileCourseRepository implements CourseRepository {
         try (BufferedReader reader = Files.newBufferedReader(COURSE_FILE)) {
             String line;
             while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(Pattern.quote(DELIMITER));
+                
+                // Adjust this check! If your file has 5 parts now, 
+                // the old code 'if (parts.length < 4)' might be failing or 
+                // ignoring the status.
+                if (parts.length >= 4) {
+                    String id = parts[0];
+                    String title = parts[1];
+                    String desc = parts[2];
+                    String instId = parts[3];
+                    
+                    // Handle files that might not have a status yet (backwards compatibility)
+                    String status = (parts.length > 4) ? parts[4] : "Active";
 
-                String[] p = line.split("\\|", -1);
-
-                // Defensive check (VERY IMPORTANT)
-                if (p.length != 4) {
-                    System.err.println("[WARN] Skipping malformed course line: " + line);
-                    continue;
+                    cache.add(new Course(id, title, desc, instId, status));
                 }
-
-                Course course = new Course(
-                        p[0],
-                        p[1],
-                        p[2],
-                        p[3]
-                );
-                cache.add(course);
             }
         } catch (IOException e) {
-            System.err.println("[ERROR] Failed to load courses");
             e.printStackTrace();
-        }
+        } 
     }
 
-    // --- Internal Rewrite Logic (SRP-compliant) ---
-    private void rewriteFile() {
-        try (BufferedWriter writer = Files.newBufferedWriter(
-                COURSE_FILE,
-                StandardOpenOption.TRUNCATE_EXISTING,
-                StandardOpenOption.CREATE)) {
+    public void update(Course updatedCourse) {
+    // 1. Update the object in our memory list (cache)
+    for (int i = 0; i < cache.size(); i++) {
+        if (cache.get(i).getId().equals(updatedCourse.getId())) {
+            cache.set(i, updatedCourse);
+            break;
+        }
+    }
+    
+    // 2. Overwrite the entire file with the updated cache
+        saveAllToFile();
+    }
 
+    private void saveAllToFile() {
+        try (BufferedWriter writer = Files.newBufferedWriter(COURSE_FILE, 
+                StandardOpenOption.TRUNCATE_EXISTING, StandardOpenOption.WRITE)) {
+            
             for (Course c : cache) {
-                writer.write(String.join(DELIMITER,
-                        c.getId(),
-                        c.getTitle(),
-                        c.getDescription(),
-                        c.getInstructorId()
-                ));
+                String line = String.join(DELIMITER,
+                    c.getId(),
+                    c.getTitle(),
+                    c.getDescription(),
+                    c.getInstructorId(),
+                    c.getStatus()
+                );
+                writer.write(line);
                 writer.newLine();
             }
-
         } catch (IOException e) {
-            System.err.println("[ERROR] Failed to rewrite course file");
-            e.printStackTrace();
+            System.err.println("Failed to rewrite course file: " + e.getMessage());
         }
     }
+
+    private void rewriteFile() {
+        try (BufferedWriter writer = Files.newBufferedWriter(COURSE_FILE, 
+                StandardOpenOption.TRUNCATE_EXISTING, StandardOpenOption.WRITE)) {
+            for (Course c : cache) {
+                writer.write(String.join(DELIMITER, 
+                    c.getId(), c.getTitle(), c.getDescription(), c.getInstructorId(), c.getStatus()));
+                writer.newLine();
+            }
+        } catch (IOException e) { e.printStackTrace(); }
+    } 
+       
+    
+    
 }

@@ -19,5 +19,7 @@ public interface CourseRepository {
 
     Course findById(String id);
 
+    void delete(Course course);
+    
     List<Course> findByInstructor(String instructorId);
 }
