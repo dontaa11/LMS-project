@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" 
+            fx:controller="main.java.com.yourorg.lms.ui.controller.InstructorCoursesController"
+            stylesheets="@css/styles.css">
+    
+    <left>
+        <fx:include source="components/Sidebar.fxml"/>
+    </left>
+
+    <center>
+        <VBox spacing="25" styleClass="main-container">
+            <padding><Insets top="30" right="40" bottom="30" left="40"/></padding>
+
+            <HBox alignment="CENTER_LEFT" spacing="20">
+                <VBox spacing="5" HBox.hgrow="ALWAYS">
+                    <Label text="Course Management" styleClass="header-label" />
+                    <Label text="Manage your curriculum and students." style="-fx-text-fill: #7f8c8d;" />
+                </VBox>
+                <Button text="+ Create New Course" style="-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-font-weight: bold;"/>
+            </HBox>
+
+            <VBox styleClass="card" VBox.vgrow="ALWAYS" spacing="15">
+                <padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
+                
+                <HBox spacing="10">
+                    <Button text="Edit Details" styleClass="secondary-btn"/>
+                    <Button text="View Students" styleClass="secondary-btn"/>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Button text="Archive Course" style="-fx-text-fill: #e74c3c;"/>
+                </HBox>
+
+                <TableView fx:id="myCoursesTable" VBox.vgrow="ALWAYS">
+                    <columns>
+                        <TableColumn fx:id="colId" text="ID" prefWidth="80"/>
+                        <TableColumn fx:id="colTitle" text="Course Title" prefWidth="300"/>
+                        <TableColumn fx:id="colEnrollment" text="Students" prefWidth="100"/>
+                        <TableColumn fx:id="colStatus" text="Status" prefWidth="120"/>
+                    </columns>
+                    <placeholder>
+                        <Label text="You haven't created any courses yet."/>
+                    </placeholder>
+                </TableView>
+            </VBox>
+        </VBox>
+    </center>
+</BorderPane>

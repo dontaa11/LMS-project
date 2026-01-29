@@ -24,11 +24,9 @@ public final class AuthService {
     private static AuthService instance;
 
     private final UserRepository userRepository;
-    private final SessionManager sessionManager;
-
     private AuthService() {
         this.userRepository = FileUserRepository.getInstance();
-        this.sessionManager = SessionManager.getInstance();
+        SessionManager.getInstance();
     }
 
     public static synchronized AuthService getInstance() {
@@ -57,7 +55,7 @@ public final class AuthService {
             throw new InvalidCredentialsException("Invalid email or password");
         }
 
-        sessionManager.login(user);
+        SessionManager.login(user);
     }
 
     // ---------------- REGISTRATION ----------------

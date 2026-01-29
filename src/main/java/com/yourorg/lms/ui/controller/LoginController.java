@@ -27,12 +27,13 @@ public class LoginController {
                     passwordField.getText()
             );
 
-            User user = SessionManager.getInstance().getCurrentUser();
+            User user = SessionManager.getCurrentUser();
             System.out.println("[DEBUG] Logged in as role: " + user.getRole());
 
             switch (user.getRole()) {
                 case "STUDENT" -> ViewFactory.showStudentDashboard();
                 case "ADMIN" -> ViewFactory.showAdminDashboard();
+                case "INSTRUCTOR" -> ViewFactory.showInstructorDashboard();
                 default -> throw new IllegalStateException("Unsupported role");
             }
 

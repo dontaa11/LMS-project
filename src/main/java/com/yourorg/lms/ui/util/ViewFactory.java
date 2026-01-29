@@ -32,10 +32,29 @@ public final class ViewFactory {
         loadScene(VIEW_PATH + "RegisterView.fxml", "LMS - Register");
     }
 
-    public static void showAdminDashboard() {
-        loadScene(VIEW_PATH + "AdminDashboardView.fxml", "Admin Dashboard");
+    public static void showInstructorDashboard() {
+        loadScene(VIEW_PATH + "InstructorDashboard.fxml", "Instructors Portal");
+    }
+        public static void showAdminDashboard() {
+        loadScene(VIEW_PATH + "AdminDashboard.fxml", "Admins Control Center");
     }
 
+
+    public static void showStudentCourses() {
+        loadScene("/resource/view/StudentCoursesView.fxml", "My Courses");
+    }
+
+    public static void showInstructorCourses() {
+        loadScene("/resource/view/InstructorManagementView.fxml", "Manage My Classes");
+    }
+
+    public static void showAdminCourseCatalog() {
+        loadScene("/resource/view/AdminCatalogView.fxml", "System Course Catalog");
+    }
+
+    public static void showSettings() {
+        loadScene("/resource/view/SettingsView.fxml", "Account Settings");
+    }
     /**
      * The Engine: Loads the FXML and sets it to the stage.
      */

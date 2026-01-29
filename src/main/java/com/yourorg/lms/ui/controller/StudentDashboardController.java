@@ -40,15 +40,15 @@ public class StudentDashboardController {
 
     @FXML
     private void handleLogout() {
-        main.java.com.yourorg.lms.util.SessionManager.getInstance().logout();
+        main.java.com.yourorg.lms.util.SessionManager.logout();
         main.java.com.yourorg.lms.ui.util.ViewFactory.showLoginWindow();
 }
     @FXML
     public void initialize() {
 
         // 1️⃣ CHECK LOGIN STATE
-        SessionManager sessionManager = SessionManager.getInstance();
-        User currentUser = sessionManager.getCurrentUser();
+        // SessionManager sessionManager = SessionManager.getInstance();
+        User currentUser = SessionManager.getCurrentUser();
 
         if (currentUser == null) {
             System.out.println("[SECURITY] No active session. Redirecting to login.");
@@ -59,7 +59,7 @@ public class StudentDashboardController {
         // 2️⃣ CHECK ROLE (DEFENSIVE)
         if (!(currentUser instanceof Student student)) {
             System.out.println("[SECURITY] Non-student attempted to access student dashboard.");
-            sessionManager.logout();
+            SessionManager.logout();
             ViewFactory.showLoginWindow();
             return;
         }

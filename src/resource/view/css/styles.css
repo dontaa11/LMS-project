@@ -65,3 +65,14 @@
     -fx-background-color: #ecf0f1;
     -fx-text-fill: #2c3e50;
 }
+
+.sidebar-button:hover {
+    -fx-background-color: #34495e; /* Subtle dark hover */
+    -fx-cursor: hand;
+}
+
+.active-sidebar-btn {
+    -fx-background-color: #2980b9 !important; /* Brighter blue to show selection */
+    -fx-border-color: #3498db;
+    -fx-border-width: 0 0 0 5; /* Left-side highlight bar */
+}

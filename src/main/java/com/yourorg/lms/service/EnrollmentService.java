@@ -55,7 +55,7 @@ public final class EnrollmentService {
             throw new IllegalStateException("User must be logged in to enroll");
         }
 
-        User currentUser = sessionManager.getCurrentUser();
+        User currentUser = SessionManager.getCurrentUser();
 
         // Role-based security check
         if (!(currentUser instanceof Student student)) {

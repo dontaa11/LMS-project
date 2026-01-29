@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" 
+            fx:controller="main.java.com.yourorg.lms.ui.controller.AdminCatalogController"
+            stylesheets="@css/styles.css">
+    
+    <left>
+        <fx:include source="components/Sidebar.fxml"/>
+    </left>
+
+    <center>
+        <VBox spacing="25" styleClass="main-container">
+            <padding><Insets top="30" right="40" bottom="30" left="40"/></padding>
+
+            <VBox spacing="5">
+                <Label text="Global Course Catalog" styleClass="header-label" />
+                <Label text="System-wide course administration." style="-fx-text-fill: #7f8c8d;" />
+            </VBox>
+
+            <HBox spacing="15" styleClass="card" alignment="CENTER_LEFT">
+                <padding><Insets top="15" right="15" bottom="15" left="15"/></padding>
+                <TextField fx:id="searchField" promptText="Search by ID, Name, or Instructor..." HBox.hgrow="ALWAYS"/>
+                <ComboBox fx:id="filterBox" promptText="Filter by Department" prefWidth="180"/>
+                <Button text="Export Report" />
+            </HBox>
+
+            <TableView fx:id="globalTable" VBox.vgrow="ALWAYS">
+                <columns>
+                    <TableColumn fx:id="colId" text="ID" prefWidth="80"/>
+                    <TableColumn fx:id="colName" text="Course Name" prefWidth="250"/>
+                    <TableColumn fx:id="colInstructor" text="Assigned Instructor" prefWidth="200"/>
+                    <TableColumn fx:id="colStudents" text="Total Students" prefWidth="120"/>
+                    <TableColumn fx:id="colActions" text="Actions" prefWidth="150"/>
+                </columns>
+            </TableView>
+        </VBox>
+    </center>
+</BorderPane>

@@ -10,7 +10,7 @@ import main.java.com.yourorg.lms.model.user.User;
 public final class SessionManager {
 
     private static SessionManager instance;
-    private User currentUser;
+    private static User currentUser;
 
     private SessionManager() {}
 
@@ -21,18 +21,18 @@ public final class SessionManager {
         return instance;
     }
 
-    public void login(User user) {
+    public static void login(User user) {
         if (user == null) {
             throw new IllegalArgumentException("User cannot be null");
         }
-        this.currentUser = user;
+        currentUser = user;
     }
 
-    public void logout() {
-        this.currentUser = null;
+    public static void logout() {
+        currentUser = null;
     }
 
-    public User getCurrentUser() {
+    public  static User getCurrentUser() {
         return currentUser;
     }
 

@@ -13,6 +13,7 @@ public abstract class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    // protected String name;
     private final String id;              // immutable identity
     private String fullName;
     private String email;
@@ -42,7 +43,7 @@ public abstract class User implements Serializable {
     public void setFullName(String fullName) { this.fullName = fullName; }
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }
-
+    public String getName() { return fullName;}
     public String getPasswordHash() {
         return this.passwordHash;
     }
