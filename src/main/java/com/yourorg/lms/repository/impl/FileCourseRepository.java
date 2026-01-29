@@ -88,18 +88,19 @@ public class FileCourseRepository implements CourseRepository {
         rewriteFile();
     }
 
-    @Override
-    public List<Course> findAll() {
-        return new ArrayList<>(cache);
-    }
-
-    @Override
+   @Override
     public Course findById(String id) {
+        // Search the cache first for speed
         return cache.stream()
                 .filter(c -> c.getId().equals(id))
                 .findFirst()
                 .orElse(null);
     }
+
+    @Override
+    public List<Course> findAll() {
+        return new ArrayList<>(cache); // Used for the Course Catalog tab
+    } 
 
     @Override
     public List<Course> findByInstructor(String instructorId) {

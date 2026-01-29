@@ -17,7 +17,7 @@ public abstract class User implements Serializable {
     private final String id;              // immutable identity
     private String fullName;
     private String email;
-    private final String passwordHash;    // already-hashed
+    private String passwordHash;    // already-hashed
 
     protected User(String id, String fullName, String email, String passwordHash) {
 
@@ -47,6 +47,9 @@ public abstract class User implements Serializable {
     public String getPasswordHash() {
         return this.passwordHash;
     }
+    public void setPasswordHash(String passwordHash) {
+    this.passwordHash = passwordHash;
+}
 
     // ---- Polymorphism ----
     public abstract String getRole();

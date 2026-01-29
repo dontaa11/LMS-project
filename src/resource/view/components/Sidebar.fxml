@@ -23,7 +23,7 @@
     <Button fx:id="teachingBtn" text="👨‍🏫  Teaching" onAction="#handleCourses" 
             styleClass="sidebar-button" maxWidth="Infinity" visible="false" managed="false"/>
 
-    <Button fx:id="adminBtn" text="🛠️  Admin Tools" onAction="#handleDashboard" 
+    <Button fx:id="adminBtn" text="🛠️  Admin Tools" onAction="#handleAdminTools" 
             styleClass="sidebar-button" maxWidth="Infinity" visible="false" managed="false"/>
     
     <Button fx:id="settingsBtn" text="⚙️  Settings" onAction="#handleSettings" 

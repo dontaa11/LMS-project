@@ -201,23 +201,43 @@ public final class FileUserRepository implements UserRepository {
     /**
      * Rewrites entire file from cache (used after delete).
      */
+   
+
+    @Override
+    public void update(User updatedUser) {
+        for (int i = 0; i < cache.size(); i++) {
+            if (cache.get(i).getId().equals(updatedUser.getId())) {
+                cache.set(i, updatedUser); // Replace old version with updated version in cache
+                rewriteFile(); // Save cache to users.txt
+                return;
+            }
+        }
+    }
+
+    /**
+     * Rewrites entire file from cache correctly for all roles.
+     */
     private void rewriteFile() {
         try (BufferedWriter writer = Files.newBufferedWriter(USER_FILE)) {
             for (User user : cache) {
-                if (user instanceof Student student) {
-                    writer.write(String.join(",",
-                            student.getId(),
-                            student.getFullName(),
-                            student.getEmail(),
-                            student.getPasswordHash(),
-                            student.getStudentNumber()
-                    ));
-                    writer.newLine();
-                }
+                StringBuilder line = new StringBuilder();
+                line.append(user.getRole()).append(",");
+                line.append(user.getId()).append(",");
+                line.append(user.getName()).append(","); // Note: Use getName() or getFullName() consistently
+                line.append(user.getEmail()).append(",");
+                line.append(user.getPasswordHash());
+
+                // Handle the "extra" field based on subclass
+                if (user instanceof Student s) line.append(",").append(s.getStudentNumber());
+                else if (user instanceof Instructor inst) line.append(",").append(inst.getDepartment());
+                else line.append(",-");
+
+                writer.write(line.toString());
+                writer.newLine();
             }
+            System.out.println("[INFO] users.txt successfully updated.");
         } catch (IOException e) {
-            System.err.println("[ERROR] Failed to rewrite user file");
-            e.printStackTrace();
+            System.err.println("[ERROR] Failed to rewrite user file: " + e.getMessage());
         }
     }
 }

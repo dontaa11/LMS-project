@@ -20,4 +20,9 @@ public interface UserRepository {
     List<User> findAll();
 
     void delete(String id);
+
+    /**
+     * Rewrites entire file from cache (used after delete).
+     */
+    void update(User updatedUser);
 }

@@ -76,3 +76,30 @@
     -fx-border-color: #3498db;
     -fx-border-width: 0 0 0 5; /* Left-side highlight bar */
 }
+
+.search-field {
+    -fx-background-radius: 15;
+    -fx-border-radius: 15;
+    -fx-padding: 5 10;
+    -fx-border-color: #dcdde1;
+}
+.search-field:focused {
+    -fx-border-color: #3498db;
+}
+
+.card {
+    -fx-background-color: white;
+    -fx-background-radius: 10;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 5);
+}
+
+.secondary-button {
+    -fx-background-color: transparent;
+    -fx-border-color: #bdc3c7;
+    -fx-border-radius: 5;
+    -fx-text-fill: #7f8c8d;
+}
+
+.secondary-button:hover {
+    -fx-background-color: #f8f9fa;
+}

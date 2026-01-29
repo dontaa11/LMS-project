@@ -12,11 +12,11 @@ import main.java.com.yourorg.lms.util.SessionManager;
 
 public class SidebarController {
 
-    @FXML private Button dashboardBtn; // Added this
+    @FXML private Button dashboardBtn;
     @FXML private Button coursesBtn;
     @FXML private Button teachingBtn;
     @FXML private Button adminBtn;
-    @FXML private Button settingsBtn; // Added this
+    @FXML private Button settingsBtn;
     @FXML private Label userNameLabel;
 
     public void initialize() {
@@ -24,10 +24,7 @@ public class SidebarController {
         
         if (current != null) {
             userNameLabel.setText("Welcome, " + current.getName());
-            String role = current.getRole().toUpperCase();
-
-            // Role-based visibility logic
-            configureVisibility(role);
+            configureVisibility(current.getRole().toUpperCase());
         }
     }
 
@@ -36,12 +33,15 @@ public class SidebarController {
         boolean isInstructor = role.equals("INSTRUCTOR");
         boolean isStudent = role.equals("STUDENT");
 
+        // Admin Tools only for Admin
         adminBtn.setVisible(isAdmin);
         adminBtn.setManaged(isAdmin);
 
+        // Instructor-specific button
         teachingBtn.setVisible(isInstructor);
         teachingBtn.setManaged(isInstructor);
 
+        // Student-specific button (Courses view)
         coursesBtn.setVisible(isStudent);
         coursesBtn.setManaged(isStudent);
     }
@@ -52,11 +52,22 @@ public class SidebarController {
         User current = SessionManager.getCurrentUser();
         if (current == null) return;
 
+        // Routing logic: Dashboard is the "Home" for each role
         switch (current.getRole().toUpperCase()) {
-            case "ADMIN" -> ViewFactory.showAdminDashboard();
+            case "ADMIN" -> ViewFactory.showAdminDashboard(); // The User Management page you have
             case "INSTRUCTOR" -> ViewFactory.showInstructorDashboard();
             default -> ViewFactory.showStudentDashboard();
         }
+    }
+
+    /**
+     * Specifically for the "Admin Tools" button.
+     * Separates management from the main overview.
+     */
+    @FXML
+    private void handleAdminTools() {
+        highlightActiveButton(adminBtn);
+        ViewFactory.showAdminCourseCatalog(); 
     }
 
     @FXML
@@ -65,10 +76,11 @@ public class SidebarController {
         User current = SessionManager.getCurrentUser();
         if (current == null) return;
 
+        // Role-based course view
         switch (current.getRole().toUpperCase()) {
             case "STUDENT" -> ViewFactory.showStudentCourses();
             case "INSTRUCTOR" -> ViewFactory.showInstructorCourses();
-            case "ADMIN" -> ViewFactory.showAdminCourseCatalog();
+            case "ADMIN" -> ViewFactory.showAdminCourseCatalog(); // Safety fallback
         }
     }
 
@@ -84,10 +96,6 @@ public class SidebarController {
         ViewFactory.showLoginWindow(); 
     }
 
-    /**
-     * Professional Highlight Logic
-     * Removes "active" class from all and adds to the selected one.
-     */
     private void highlightActiveButton(Button activeButton) {
         List<Button> allButtons = Arrays.asList(dashboardBtn, coursesBtn, teachingBtn, adminBtn, settingsBtn);
         
