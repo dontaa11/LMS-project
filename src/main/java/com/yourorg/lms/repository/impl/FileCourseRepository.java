@@ -119,6 +119,7 @@ public class FileCourseRepository implements CourseRepository {
 
     @Override
     public List<Course> findAll() {
+        refreshCache();
         return new ArrayList<>(cache); // Used for the Course Catalog tab
     } 
 

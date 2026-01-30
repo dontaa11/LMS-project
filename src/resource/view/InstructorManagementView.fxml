@@ -26,7 +26,7 @@
                 </VBox>
                 <Button text="+ Create New Course" 
                         onAction="#handleCreateCourse"
-                        style="-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;"/>
+                        style="-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" defaultButton="true"/>
             </HBox>
 
             <VBox styleClass="card" VBox.vgrow="ALWAYS" spacing="15">

@@ -25,7 +25,7 @@
     <TextField fx:id="extraField" promptText="Student Number / Department" maxWidth="300"/>
 
     <Button text="Create Account" onAction="#handleRegister" maxWidth="300"
-            style="-fx-background-color: #2196F3; -fx-text-fill: white;"/>
+            style="-fx-background-color: #2196F3; -fx-text-fill: white;" defaultButton="true"/>
             
     <Hyperlink text="Already have an account? Login" onAction="#onBackToLogin"/>
 </VBox>

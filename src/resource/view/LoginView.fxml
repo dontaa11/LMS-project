@@ -21,7 +21,7 @@
     <PasswordField fx:id="passwordField" promptText="Password" maxWidth="300"/>
 
     <Button text="Login" onAction="#onLoginClicked" maxWidth="250" 
-            style="-fx-background-color: #4CAF50; -fx-text-fill: white;"/>
+            style="-fx-background-color: #4CAF50; -fx-text-fill: white;" defaultButton="true"/>
 
     <Hyperlink text="No account? Register here" onAction="#onRegisterLinkClicked"/>
 </VBox>

@@ -18,13 +18,21 @@ public class SidebarController {
     @FXML private Button adminBtn;
     @FXML private Button settingsBtn;
     @FXML private Label userNameLabel;
+    @FXML private javafx.scene.layout.VBox sidebarVBox;
+
+
 
     public void initialize() {
         User current = SessionManager.getCurrentUser();
+
+       
         
         if (current != null) {
             userNameLabel.setText("Welcome, " + current.getName());
             configureVisibility(current.getRole().toUpperCase());
+        
+            String userRole = current.getRole();
+            configureVisibility(userRole);
         }
     }
 
@@ -107,6 +115,30 @@ public class SidebarController {
         
         if (activeButton != null) {
             activeButton.getStyleClass().add("active-sidebar-btn");
+        }
+    }
+
+    @FXML
+    private void toggleSidebar() {
+        boolean collapsing = sidebarVBox.getPrefWidth() > 70;
+        double targetWidth = collapsing ? 60 : 220;
+
+        // 1. Set the new width
+        sidebarVBox.setPrefWidth(targetWidth);
+
+        // 2. Handle the text/labels
+        if (collapsing) {
+            dashboardBtn.setText("🏠");
+            coursesBtn.setText("📚");
+            teachingBtn.setText("👨‍🏫");
+            settingsBtn.setText("⚙️");
+            userNameLabel.setVisible(false);
+        } else {
+            dashboardBtn.setText("🏠  Dashboard");
+            coursesBtn.setText("📚  My Courses");
+            teachingBtn.setText("👨‍🏫  Teaching");
+            settingsBtn.setText("⚙️  Settings");
+            userNameLabel.setVisible(true);
         }
     }
 }
